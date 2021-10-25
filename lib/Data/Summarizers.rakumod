@@ -46,9 +46,7 @@ sub records-summary( $data, UInt :$max-tallies = 7 ) is export {
                 if $maxSize - $v.elems > 0 {
                     $res = $res.Array.append( "".roll($maxSize - $v.elems) )
                 }
-                my $i = 0;
-                $k => $res.map({ ($i++).Str => $_ }).Hash
+                $k => $res.Array
             }
-
     say to-pretty-table(transpose(%summary2).values, align => 'l');
 }

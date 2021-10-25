@@ -31,8 +31,10 @@ sub records-summary( $data, UInt :$max-tallies = 7 ) is export {
 
     my %summary = Data::Summarizers::RecordsSummary::RecordsSummary($data, :$max-tallies);
 
-    if is-categorical-vector($data) or is-numeric-vector($data) {
-        %summary = '0' => %summary.pairs
+    if is-numeric-vector($data) {
+        %summary = 'numerical' => %summary.pairs
+    } elsif is-categorical-vector($data) {
+        %summary = 'categorical' => %summary.pairs
     }
 
     my $maxSize = %summary.map({ $_.value.elems }).max;
@@ -48,5 +50,5 @@ sub records-summary( $data, UInt :$max-tallies = 7 ) is export {
                 $k => $res.map({ ($i++).Str => $_ }).Hash
             }
 
-    say to-pretty-table(transpose(%summary2), align => 'l');
+    say to-pretty-table(transpose(%summary2).values, align => 'l');
 }

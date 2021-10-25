@@ -21,6 +21,7 @@ different data structures (full arrays, Red tables, Text::CSV tables.)
 =end pod
 
 use Data::Summarizers::RecordsSummary;
+use Data::Summarizers::Predicates;
 use Data::Reshapers;
 
 unit module Data::Summarizers;
@@ -29,6 +30,10 @@ unit module Data::Summarizers;
 sub records-summary( $data, UInt :$max-tallies = 7 ) is export {
 
     my %summary = Data::Summarizers::RecordsSummary::RecordsSummary($data, :$max-tallies);
+
+    if is-categorical-vector($data) or is-numeric-vector($data) {
+        %summary = '0' => %summary.pairs
+    }
 
     my $maxSize = %summary.map({ $_.value.elems }).max;
 

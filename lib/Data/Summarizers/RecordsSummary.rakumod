@@ -45,7 +45,7 @@ multi NumericVectorSummary(@vec where is-numeric-vector($_) --> List) {
                 );
 
         if @nvec.elems < @vec.elems {
-            @res.append('NaN-or-Whatever' => (@vec.elems - @nvec.elems))
+            @res.append('(NaN-or-Whatever)' => (@vec.elems - @nvec.elems))
         }
 
         @res
@@ -69,7 +69,7 @@ multi CategoricalVectorSummary(@vec where is-categorical-vector($_), UInt :$max-
     }
 
     if $whateverCounts > 0 {
-        @r = @r.append(('Whatever' => $whateverCounts))
+        @r = @r.append(('(Whatever)' => $whateverCounts))
     }
 
     @r
@@ -81,9 +81,9 @@ our proto RecordsSummary(|) is export {*}
 #-----------------------------------------------------------
 multi RecordsSummary($dataRecords, UInt :$max-tallies = 7) {
     if is-numeric-vector($dataRecords) {
-        NumericVectorSummary($dataRecords)
+        NumericVectorSummary($dataRecords);
     } elsif is-categorical-vector($dataRecords) {
-        CategoricalVectorSummary($dataRecords, :$max-tallies)
+        CategoricalVectorSummary($dataRecords, :$max-tallies);
     } elsif has-homogeneous-hash-types($dataRecords) {
         transpose($dataRecords).map({ $_.key => RecordsSummary($_.value, :$max-tallies) })
     } elsif has-homogeneous-array-types($dataRecords) {

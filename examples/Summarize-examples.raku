@@ -4,7 +4,6 @@ use lib './lib';
 use lib '.';
 
 use Data::Summarizers;
-use Data::Summarizers::RecordsSummary;
 use Data::Reshapers;
 use Pretty::Table;
 
@@ -15,7 +14,7 @@ my @vec = [^1001].roll(12);
 @vec .= roll(@vec.elems);
 
 say @vec;
-say NumericVectorSummary(@vec);
+say records-summary(@vec);
 
 ##===========================================================
 say "=" x 60;
@@ -24,8 +23,8 @@ my @svec = <bar car mask element charisma smack churn>.roll(15);
 @svec .= roll(@svec.elems);
 
 say @svec;
-say CategoricalVectorSummary(@svec, max-tallies => 12);
-say CategoricalVectorSummary(@svec, max-tallies => 2);
+say records-summary(@svec, max-tallies => 12);
+say records-summary(@svec, max-tallies => 2);
 
 ##===========================================================
 say "=" x 60;

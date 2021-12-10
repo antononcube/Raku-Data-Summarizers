@@ -57,7 +57,6 @@ sub records-summary($data, UInt :$max-tallies = 7, Bool :$as-hash = False, Bool 
 
     if $say {
         say $res;
-        return;
     }
     return $res;
 }

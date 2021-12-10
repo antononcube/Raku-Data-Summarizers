@@ -27,7 +27,7 @@ use Data::Reshapers;
 unit module Data::Summarizers;
 
 #===========================================================
-sub records-summary( $data, UInt :$max-tallies = 7 ) is export {
+sub records-summary( $data, UInt :$max-tallies = 7, Bool :$as-hash = False) is export {
 
     my %summary = Data::Summarizers::RecordsSummary::RecordsSummary($data, :$max-tallies);
 
@@ -35,6 +35,10 @@ sub records-summary( $data, UInt :$max-tallies = 7 ) is export {
         %summary = 'numerical' => %summary.pairs
     } elsif is-categorical-vector($data) {
         %summary = 'categorical' => %summary.pairs
+    }
+
+    if $as-hash {
+        return %summary.map({ $_.key => $_.value.Hash }).Hash
     }
 
     my $maxSize = %summary.map({ $_.value.elems }).max;
@@ -48,5 +52,6 @@ sub records-summary( $data, UInt :$max-tallies = 7 ) is export {
                 }
                 $k => @res.Array
             }
+
     say to-pretty-table(transpose(%summary2).values, align => 'l');
 }

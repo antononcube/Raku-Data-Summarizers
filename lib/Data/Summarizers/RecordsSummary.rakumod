@@ -44,7 +44,7 @@ multi NumericVectorSummary(@vec where is-numeric-vector($_) --> List) {
                 'Max' => @nvec.max);
 
         if @nvec.elems < @vec.elems {
-            @res.append('(Any-Nil-or-Whatever)' => (@vec.elems - @nvec.elems))
+            @res.append('(Any-Nan-Nil-or-Whatever)' => (@vec.elems - @nvec.elems))
         }
 
         @res
@@ -61,14 +61,14 @@ multi CategoricalVectorSummary(@vec where is-categorical-vector($_), UInt :$max-
 
     @r = @r.sort({ - $_.value });
 
-    my $whateverCounts = @vec.grep({ $_.isa(Whatever) }).elems;
+    my $whateverCounts = @vec.grep({ ($_ eqv Any) or $_.isa(Nil) or $_.isa(Whatever) }).elems;
 
     if @r.elems > $max-tallies {
         @r = @r[^$max-tallies].Array.append(('(Other)' => @r.[$max-tallies .. *- 1].map({ $_.value }).sum))
     }
 
     if $whateverCounts > 0 {
-        @r = @r.append(('(Whatever)' => $whateverCounts))
+        @r = @r.append(('(Any-Nil-or-Whatever)' => $whateverCounts))
     }
 
     @r

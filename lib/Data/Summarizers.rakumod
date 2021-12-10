@@ -27,7 +27,7 @@ use Data::Reshapers;
 unit module Data::Summarizers;
 
 #===========================================================
-sub records-summary( $data, UInt :$max-tallies = 7, Bool :$as-hash = False) is export {
+sub records-summary($data, UInt :$max-tallies = 7, Bool :$as-hash = False, Bool :$say = True) is export {
 
     my %summary = Data::Summarizers::RecordsSummary::RecordsSummary($data, :$max-tallies);
 
@@ -38,7 +38,7 @@ sub records-summary( $data, UInt :$max-tallies = 7, Bool :$as-hash = False) is e
     }
 
     if $as-hash {
-        return %summary.map({ $_.key => $_.value.Hash }).Hash
+        return %summary.map({ $_.key => $_.value.Hash }).Hash;
     }
 
     my $maxSize = %summary.map({ $_.value.elems }).max;
@@ -48,10 +48,16 @@ sub records-summary( $data, UInt :$max-tallies = 7, Bool :$as-hash = False) is e
                 my $maxKeySize = max(0, $v.map({ $_.key.Str.chars }).max);
                 my @res is Array = $v.map({ $_.key ~ (' ' x ($maxKeySize - $_.key.chars)) ~ ' => ' ~ $_.value });
                 if $maxSize - $v.elems > 0 {
-                    @res = @res.Array.append( "".roll($maxSize - $v.elems).Array )
+                    @res = @res.Array.append("".roll($maxSize - $v.elems).Array)
                 }
                 $k => @res.Array
             }
 
-    say to-pretty-table(transpose(%summary2).values, align => 'l');
+    my $res = to-pretty-table(transpose(%summary2).values, align => 'l');
+
+    if $say {
+        say $res;
+        return;
+    }
+    return $res;
 }

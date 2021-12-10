@@ -41,12 +41,12 @@ sub records-summary( $data, UInt :$max-tallies = 7 ) is export {
 
     my %summary2 =
             do for %summary.kv -> $k, $v {
-                my $maxKeySize = $v.map({ $_.key.chars }).max;
-                my $res = $v.map({ $_.key ~ (' ' x ($maxKeySize - $_.key.chars)) ~ ' => ' ~ $_.value });
+                my $maxKeySize = max(0, $v.map({ $_.key.Str.chars }).max);
+                my @res is Array = $v.map({ $_.key ~ (' ' x ($maxKeySize - $_.key.chars)) ~ ' => ' ~ $_.value });
                 if $maxSize - $v.elems > 0 {
-                    $res = $res.Array.append( "".roll($maxSize - $v.elems) )
+                    @res = @res.Array.append( "".roll($maxSize - $v.elems).Array )
                 }
-                $k => $res.Array
+                $k => @res.Array
             }
     say to-pretty-table(transpose(%summary2).values, align => 'l');
 }

@@ -44,7 +44,7 @@ my @vec = [^1001].roll(12);
 @vec
 ```
 ```
-# [NaN (Any) 895 140 605 293 785 (Whatever) 8 82 274 211 578 746 621]
+# [573 (Whatever) 552 143 290 684 980 NaN 671 200 118 220 750 51 (Any)]
 ```
 
 Here we summarize the vector generated above:
@@ -56,19 +56,19 @@ records-summary(@vec)
 # +------------------------------------+
 # | numerical                          |
 # +------------------------------------+
-# | Median                    => 435.5 |
-# | 1st-Qu                    => 175.5 |
-# | Mean                      => 436.5 |
-# | Max                       => 895   |
+# | 3rd-Qu                    => 677.5 |
 # | (Any-Nan-Nil-or-Whatever) => 3     |
-# | Min                       => 8     |
-# | 3rd-Qu                    => 683.5 |
+# | Mean                      => 436   |
+# | Max                       => 980   |
+# | Median                    => 421   |
+# | 1st-Qu                    => 171.5 |
+# | Min                       => 51    |
 # +------------------------------------+
 ```
 
 ### Summarize tabular datasets
 
-Here we generate a random tabular dataset with 20 rows and 4 columns and display it:
+Here we generate a random tabular dataset with 16 rows and 3 columns and display it:
 
 ```perl6
 srand(32);
@@ -76,26 +76,26 @@ my $tbl = random-tabular-dataset(16, <Pet Ref Code>, generators=>[random-pet-nam
 to-pretty-table($tbl)
 ```
 ```
-# +-----------------------+----------------+--------------+
-# |          Pet          |      Code      |     Ref      |
-# +-----------------------+----------------+--------------+
-# |        Atticus        | CQmrQcQ4YkXvaD |   Western    |
-# |       Ginny Lee       |       aY       |    frost     |
-# | Durango Fucking Boots | xgZjtSP6VrKbH  |     drip     |
-# | Durango Fucking Boots |       aY       |  binominal   |
-# |         Gavin         | xgZjtSP6VrKbH  |   jangling   |
-# | Durango Fucking Boots | A2Ue69EWAMtJCi |     fort     |
-# |       Ginny Lee       |    20CO9FGD    |   Marquand   |
-# |       Ginny Lee       | xgZjtSP6VrKbH  |     umbo     |
-# |         Gavin         | A2Ue69EWAMtJCi |   Collins    |
-# | Durango Fucking Boots | A2Ue69EWAMtJCi | shoot-'em-up |
-# |         Gavin         | KNwmt0QmoqABwR |   epicarp    |
-# |        Atticus        |       aY       |    Alsace    |
-# |         Gavin         | xgZjtSP6VrKbH  |   invasive   |
-# |         Gavin         | KNwmt0QmoqABwR |   exanthem   |
-# |       Ginny Lee       | xgZjtSP6VrKbH  |   nighted    |
-# |         Gavin         | xgZjtSP6VrKbH  |  procurable  |
-# +-----------------------+----------------+--------------+
+# +---------+--------------+----------------+
+# |   Pet   |     Ref      |      Code      |
+# +---------+--------------+----------------+
+# | Phyllis |   epicarp    | KNwmt0QmoqABwR |
+# |  Hikari |   Marquand   |    20CO9FGD    |
+# |  Irwin  |     fort     | A2Ue69EWAMtJCi |
+# | Phyllis |   jangling   | xgZjtSP6VrKbH  |
+# |  Millie |    Alsace    |       aY       |
+# |  Hikari |    frost     |       aY       |
+# |  Irwin  |  binominal   |       aY       |
+# | Phyllis |  procurable  | xgZjtSP6VrKbH  |
+# |  Hikari |     umbo     | xgZjtSP6VrKbH  |
+# |  Hikari |   nighted    | xgZjtSP6VrKbH  |
+# | Phyllis |   exanthem   | KNwmt0QmoqABwR |
+# | Phyllis |   invasive   | xgZjtSP6VrKbH  |
+# | Phyllis |   Collins    | A2Ue69EWAMtJCi |
+# |  Millie |   Western    | CQmrQcQ4YkXvaD |
+# |  Irwin  | shoot-'em-up | A2Ue69EWAMtJCi |
+# |  Irwin  |     drip     | xgZjtSP6VrKbH  |
+# +---------+--------------+----------------+
 ```
 
 **Remark:** The values of the column "Pet" is sampled from a set of four pet names, and the values of the column
@@ -107,18 +107,18 @@ Here we summarize the tabular dataset generated above:
 records-summary($tbl)
 ```
 ```
-# +----------------------------+-------------------+---------------------+
-# | Pet                        | Ref               | Code                |
-# +----------------------------+-------------------+---------------------+
-# | Gavin                 => 6 | umbo         => 1 | xgZjtSP6VrKbH  => 6 |
-# | Ginny Lee             => 4 | jangling     => 1 | A2Ue69EWAMtJCi => 3 |
-# | Durango Fucking Boots => 4 | Western      => 1 | aY             => 3 |
-# | Atticus               => 2 | nighted      => 1 | KNwmt0QmoqABwR => 2 |
-# |                            | shoot-'em-up => 1 | CQmrQcQ4YkXvaD => 1 |
-# |                            | drip         => 1 | 20CO9FGD       => 1 |
-# |                            | Alsace       => 1 |                     |
-# |                            | (Other)      => 9 |                     |
-# +----------------------------+-------------------+---------------------+
+# +--------------+-------------------+---------------------+
+# | Pet          | Ref               | Code                |
+# +--------------+-------------------+---------------------+
+# | Phyllis => 6 | Western      => 1 | xgZjtSP6VrKbH  => 6 |
+# | Hikari  => 4 | procurable   => 1 | aY             => 3 |
+# | Irwin   => 4 | nighted      => 1 | A2Ue69EWAMtJCi => 3 |
+# | Millie  => 2 | Alsace       => 1 | KNwmt0QmoqABwR => 2 |
+# |              | drip         => 1 | CQmrQcQ4YkXvaD => 1 |
+# |              | Marquand     => 1 | 20CO9FGD       => 1 |
+# |              | shoot-'em-up => 1 |                     |
+# |              | (Other)      => 9 |                     |
+# +--------------+-------------------+---------------------+
 ```
 
 ### Skim
@@ -129,7 +129,13 @@ records-summary($tbl)
 
 ## TODO
 
-*TBD...*
+- [ ] User specified `NA` marker
+  
+- [ ] Tabular dataset summarization tests
+
+- [ ] Skimmer
+
+- [ ] Peek-er
 
 ------
 

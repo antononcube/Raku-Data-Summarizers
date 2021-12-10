@@ -49,7 +49,7 @@ records-summary(@vec)
 
 ### Summarize tabular datasets
 
-Here we generate a random tabular dataset with 20 rows and 4 columns and display it:
+Here we generate a random tabular dataset with 16 rows and 3 columns and display it:
 
 ```perl6
 srand(32);
@@ -74,7 +74,13 @@ records-summary($tbl)
 
 ## TODO
 
-*TBD...*
+- [ ] User specified `NA` marker
+  
+- [ ] Tabular dataset summarization tests
+
+- [ ] Skimmer
+
+- [ ] Peek-er
 
 ------
 

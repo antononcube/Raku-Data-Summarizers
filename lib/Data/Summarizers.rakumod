@@ -31,17 +31,14 @@ unit module Data::Summarizers;
 #===========================================================
 sub records-summary($data, UInt :$max-tallies = 7, Bool :$as-hash = False, Bool :$say = True) is export {
 
+    ## If a hash of datasets delegate appropriately.
+    if ($data ~~ Map) and ([and] $data.map({ has-homogeneous-shape($_) })) {
 
-    if $data ~~ Map and ([&] $data.map({has-homogeneous-shape($_)})) {
-        if $say {
-            return $data.map({
-                say("summary of { $_.key } =>"); records-summary($_.value, :$max-tallies, :$as-hash, :$say)
-            })
-        } else {
-            return $data.map({
+        return $data.map({
+                if $say { say("summary of { $_.key } =>") }
                 $_.key => records-summary($_.value, :$max-tallies, :$as-hash, :$say)
-            }).Hash
-        }
+            }).Hash;
+
     }
 
     my %summary = Data::Summarizers::RecordsSummary::RecordsSummary($data, :$max-tallies);
@@ -68,10 +65,10 @@ sub records-summary($data, UInt :$max-tallies = 7, Bool :$as-hash = False, Bool 
                 $k => @res.Array
             }
 
-    my $res = to-pretty-table(transpose(%summary2).values, align => 'l');
+    my $res = transpose(%summary2).values;
 
     if $say {
-        say $res;
+        say to-pretty-table($res, align => 'l');
     }
     return $res;
 }

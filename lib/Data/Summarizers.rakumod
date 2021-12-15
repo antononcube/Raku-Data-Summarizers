@@ -7,27 +7,42 @@ different data structures (full arrays, Red tables, Text::CSV tables.)
 
 =head1 Synopsis
 
+    use Data::Reshapers;
     use Data::Summarizers;
 
+    # Using a function from data::Reshapers
     my @tbl = get-titanic-dataset(headers => "auto");
 
-    my $xtab1 = cross-tabulate(@tbl, 'passengerClass', 'passengerSex');
-    my $xtab2 = cross-tabulate(@tbl, 'passengerClass', 'passengerSex', 'passengerAge');
+    # Summarize the table
+    records-summary(@tbl);
 
-    my @tbl2 = get-titanic-dataset(headers => "none");
-    my $xtab3 = cross-tabulate(@tbl, 1, 3);
-    my $xtab4 = cross-tabulate(@tbl, 1, 3, 2);
+    # Group by passengerClass and summarize
+    records-summary(group-by(@tbl, "passengerClass"));
 
 =end pod
 
 use Data::Summarizers::RecordsSummary;
 use Data::Summarizers::Predicates;
 use Data::Reshapers;
+use Data::Reshapers::Predicates;
 
 unit module Data::Summarizers;
 
 #===========================================================
 sub records-summary($data, UInt :$max-tallies = 7, Bool :$as-hash = False, Bool :$say = True) is export {
+
+
+    if $data ~~ Map and ([&] $data.map({has-homogeneous-shape($_)})) {
+        if $say {
+            return $data.map({
+                say("summary of { $_.key } =>"); records-summary($_.value, :$max-tallies, :$as-hash, :$say)
+            })
+        } else {
+            return $data.map({
+                $_.key => records-summary($_.value, :$max-tallies, :$as-hash, :$say)
+            }).Hash
+        }
+    }
 
     my %summary = Data::Summarizers::RecordsSummary::RecordsSummary($data, :$max-tallies);
 

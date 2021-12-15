@@ -44,7 +44,7 @@ my @vec = [^1001].roll(12);
 @vec
 ```
 ```
-# [573 (Whatever) 552 143 290 684 980 NaN 671 200 118 220 750 51 (Any)]
+# [740 311 434 300 (Whatever) 192 705 202 576 561 544 NaN (Any) 744 133]
 ```
 
 Here we summarize the vector generated above:
@@ -53,17 +53,17 @@ Here we summarize the vector generated above:
 records-summary(@vec)
 ```
 ```
-# +------------------------------------+
-# | numerical                          |
-# +------------------------------------+
-# | 3rd-Qu                    => 677.5 |
-# | (Any-Nan-Nil-or-Whatever) => 3     |
-# | Mean                      => 436   |
-# | Max                       => 980   |
-# | Median                    => 421   |
-# | 1st-Qu                    => 171.5 |
-# | Min                       => 51    |
-# +------------------------------------+
+# O────────────────────────────────────O
+# │ numerical                          │
+# O────────────────────────────────────O
+# │ 1st-Qu                    => 251   │
+# │ Max                       => 744   │
+# │ Median                    => 489   │
+# │ (Any-Nan-Nil-or-Whatever) => 3     │
+# │ Mean                      => 453.5 │
+# │ Min                       => 133   │
+# │ 3rd-Qu                    => 640.5 │
+# O────────────────────────────────────O
 ```
 
 ### Summarize tabular datasets
@@ -72,30 +72,32 @@ Here we generate a random tabular dataset with 16 rows and 3 columns and display
 
 ```perl6
 srand(32);
-my $tbl = random-tabular-dataset(16, <Pet Ref Code>, generators=>[random-pet-name(4), &random-word, random-string(6)]);
+my $tbl = random-tabular-dataset(16, 
+                                 <Pet Ref Code>,
+                                 generators=>[random-pet-name(4), -> $n { ((^20).rand xx $n).List }, random-string(6)]);
 to-pretty-table($tbl)
 ```
 ```
-# +---------+--------------+----------------+
-# |   Pet   |     Ref      |      Code      |
-# +---------+--------------+----------------+
-# | Phyllis |   epicarp    | KNwmt0QmoqABwR |
-# |  Hikari |   Marquand   |    20CO9FGD    |
-# |  Irwin  |     fort     | A2Ue69EWAMtJCi |
-# | Phyllis |   jangling   | xgZjtSP6VrKbH  |
-# |  Millie |    Alsace    |       aY       |
-# |  Hikari |    frost     |       aY       |
-# |  Irwin  |  binominal   |       aY       |
-# | Phyllis |  procurable  | xgZjtSP6VrKbH  |
-# |  Hikari |     umbo     | xgZjtSP6VrKbH  |
-# |  Hikari |   nighted    | xgZjtSP6VrKbH  |
-# | Phyllis |   exanthem   | KNwmt0QmoqABwR |
-# | Phyllis |   invasive   | xgZjtSP6VrKbH  |
-# | Phyllis |   Collins    | A2Ue69EWAMtJCi |
-# |  Millie |   Western    | CQmrQcQ4YkXvaD |
-# |  Irwin  | shoot-'em-up | A2Ue69EWAMtJCi |
-# |  Irwin  |     drip     | xgZjtSP6VrKbH  |
-# +---------+--------------+----------------+
+# O────────────────O───────────O──────────O
+# │      Code      │    Ref    │   Pet    │
+# O────────────────O───────────O──────────O
+# │ A2Ue69EWAMtJCi │  0.050176 │ Guinness │
+# │ KNwmt0QmoqABwR │  0.731900 │ Truffle  │
+# │ A2Ue69EWAMtJCi │  0.739763 │  Jumba   │
+# │       aY       │  7.342107 │ Guinness │
+# │ xgZjtSP6VrKbH  │ 19.868591 │  Jumba   │
+# │    20CO9FGD    │ 12.956172 │  Jumba   │
+# │    20CO9FGD    │ 15.854088 │ Guinness │
+# │ A2Ue69EWAMtJCi │  4.774780 │ Guinness │
+# │ A2Ue69EWAMtJCi │ 18.729798 │ Guinness │
+# │ xgZjtSP6VrKbH  │ 13.383997 │ Guinness │
+# │       aY       │  9.837488 │  Jumba   │
+# │    20CO9FGD    │  2.912506 │ Truffle  │
+# │ xgZjtSP6VrKbH  │ 11.782221 │ Truffle  │
+# │ KNwmt0QmoqABwR │  9.825102 │ Truffle  │
+# │ xgZjtSP6VrKbH  │ 16.277717 │  Jumba   │
+# │ CQmrQcQ4YkXvaD │  1.740695 │ Guinness │
+# O────────────────O───────────O──────────O
 ```
 
 **Remark:** The values of the column "Pet" is sampled from a set of four pet names, and the values of the column
@@ -107,18 +109,100 @@ Here we summarize the tabular dataset generated above:
 records-summary($tbl)
 ```
 ```
-# +--------------+-------------------+---------------------+
-# | Pet          | Ref               | Code                |
-# +--------------+-------------------+---------------------+
-# | Phyllis => 6 | Western      => 1 | xgZjtSP6VrKbH  => 6 |
-# | Hikari  => 4 | procurable   => 1 | aY             => 3 |
-# | Irwin   => 4 | nighted      => 1 | A2Ue69EWAMtJCi => 3 |
-# | Millie  => 2 | Alsace       => 1 | KNwmt0QmoqABwR => 2 |
-# |              | drip         => 1 | CQmrQcQ4YkXvaD => 1 |
-# |              | Marquand     => 1 | 20CO9FGD       => 1 |
-# |              | shoot-'em-up => 1 |                     |
-# |              | (Other)      => 9 |                     |
-# +--------------+-------------------+---------------------+
+# O───────────────O──────────────────────────────O─────────────────────O
+# │ Pet           │ Ref                          │ Code                │
+# O───────────────O──────────────────────────────O─────────────────────O
+# │ Guinness => 7 │ Min    => 0.0501758995572299 │ xgZjtSP6VrKbH  => 4 │
+# │ Jumba    => 5 │ 1st-Qu => 2.3266005718178704 │ A2Ue69EWAMtJCi => 4 │
+# │ Truffle  => 4 │ Mean   => 9.175443804770861  │ 20CO9FGD       => 3 │
+# │               │ Median => 9.831294839627123  │ KNwmt0QmoqABwR => 2 │
+# │               │ 3rd-Qu => 14.619042446877677 │ aY             => 2 │
+# │               │ Max    => 19.868590809216744 │ CQmrQcQ4YkXvaD => 1 │
+# O───────────────O──────────────────────────────O─────────────────────O
+```
+
+### Summarize collections of tabular datasets 
+
+Here is a hash of tabular datasets:
+
+```raku
+my %group = group-by($tbl, 'Pet');
+
+%group.pairs.map({ say("{$_.key} =>"); say to-pretty-table($_.value) });
+```
+```
+# Guinness =>
+# O────────────────O───────────O──────────O
+# │      Code      │    Ref    │   Pet    │
+# O────────────────O───────────O──────────O
+# │ A2Ue69EWAMtJCi │  0.050176 │ Guinness │
+# │       aY       │  7.342107 │ Guinness │
+# │    20CO9FGD    │ 15.854088 │ Guinness │
+# │ A2Ue69EWAMtJCi │  4.774780 │ Guinness │
+# │ A2Ue69EWAMtJCi │ 18.729798 │ Guinness │
+# │ xgZjtSP6VrKbH  │ 13.383997 │ Guinness │
+# │ CQmrQcQ4YkXvaD │  1.740695 │ Guinness │
+# O────────────────O───────────O──────────O
+# Truffle =>
+# O─────────O───────────O────────────────O
+# │   Pet   │    Ref    │      Code      │
+# O─────────O───────────O────────────────O
+# │ Truffle │  0.731900 │ KNwmt0QmoqABwR │
+# │ Truffle │  2.912506 │    20CO9FGD    │
+# │ Truffle │ 11.782221 │ xgZjtSP6VrKbH  │
+# │ Truffle │  9.825102 │ KNwmt0QmoqABwR │
+# O─────────O───────────O────────────────O
+# Jumba =>
+# O───────────O────────────────O───────O
+# │    Ref    │      Code      │  Pet  │
+# O───────────O────────────────O───────O
+# │  0.739763 │ A2Ue69EWAMtJCi │ Jumba │
+# │ 19.868591 │ xgZjtSP6VrKbH  │ Jumba │
+# │ 12.956172 │    20CO9FGD    │ Jumba │
+# │  9.837488 │       aY       │ Jumba │
+# │ 16.277717 │ xgZjtSP6VrKbH  │ Jumba │
+# O───────────O────────────────O───────O
+```
+
+Here is the summary of that collection of datasets:
+
+```raku
+records-summary(%group)
+```
+```
+# summary of Guinness =>
+# O──────────────────────────────O─────────────────────O───────────────O
+# │ Ref                          │ Code                │ Pet           │
+# O──────────────────────────────O─────────────────────O───────────────O
+# │ Min    => 0.0501758995572299 │ A2Ue69EWAMtJCi => 3 │ Guinness => 7 │
+# │ 1st-Qu => 1.7406953436440742 │ CQmrQcQ4YkXvaD => 1 │               │
+# │ Mean   => 8.839377375678543  │ 20CO9FGD       => 1 │               │
+# │ Median => 7.34210706081909   │ xgZjtSP6VrKbH  => 1 │               │
+# │ 3rd-Qu => 15.854088005472917 │ aY             => 1 │               │
+# │ Max    => 18.72979803423013  │                     │               │
+# O──────────────────────────────O─────────────────────O───────────────O
+# summary of Truffle =>
+# O──────────────O──────────────────────────────O─────────────────────O
+# │ Pet          │ Ref                          │ Code                │
+# O──────────────O──────────────────────────────O─────────────────────O
+# │ Truffle => 4 │ Min    => 0.7318998724597869 │ KNwmt0QmoqABwR => 2 │
+# │              │ 1st-Qu => 1.822202836225727  │ 20CO9FGD       => 1 │
+# │              │ Mean   => 6.312932174017679  │ xgZjtSP6VrKbH  => 1 │
+# │              │ Median => 6.368803873269801  │                     │
+# │              │ 3rd-Qu => 10.803661511809633 │                     │
+# │              │ Max    => 11.782221077071329 │                     │
+# O──────────────O──────────────────────────────O─────────────────────O
+# summary of Jumba =>
+# O──────────────────────────────O────────────O─────────────────────O
+# │ Ref                          │ Pet        │ Code                │
+# O──────────────────────────────O────────────O─────────────────────O
+# │ Min    => 0.7397628145038704 │ Jumba => 5 │ xgZjtSP6VrKbH  => 2 │
+# │ 1st-Qu => 5.28862527360509   │            │ 20CO9FGD       => 1 │
+# │ Mean   => 11.935946110102654 │            │ A2Ue69EWAMtJCi => 1 │
+# │ Median => 12.956171789492936 │            │ aY             => 1 │
+# │ 3rd-Qu => 18.073154106905072 │            │                     │
+# │ Max    => 19.868590809216744 │            │                     │
+# O──────────────────────────────O────────────O─────────────────────O
 ```
 
 ### Skim

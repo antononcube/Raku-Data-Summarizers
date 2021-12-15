@@ -53,7 +53,9 @@ Here we generate a random tabular dataset with 16 rows and 3 columns and display
 
 ```perl6
 srand(32);
-my $tbl = random-tabular-dataset(16, <Pet Ref Code>, generators=>[random-pet-name(4), &random-word, random-string(6)]);
+my $tbl = random-tabular-dataset(16, 
+                                 <Pet Ref Code>,
+                                 generators=>[random-pet-name(4), -> $n { ((^20).rand xx $n).List }, random-string(6)]);
 to-pretty-table($tbl)
 ```
 
@@ -64,6 +66,22 @@ Here we summarize the tabular dataset generated above:
 
 ```perl6
 records-summary($tbl)
+```
+
+### Summarize collections of tabular datasets 
+
+Here is a hash of tabular datasets:
+
+```raku
+my %group = group-by($tbl, 'Pet');
+
+%group.pairs.map({ say("{$_.key} =>"); say to-pretty-table($_.value) });
+```
+
+Here is the summary of that collection of datasets:
+
+```raku
+records-summary(%group)
 ```
 
 ### Skim

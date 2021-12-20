@@ -20,34 +20,34 @@ ok records-summary(@rvec1):!say;
 my @vec = [^1001].roll(12);
 @vec = @vec.append([NaN, Whatever, Nil]);
 @vec .= pick(@vec.elems);
-ok records-summary(@vec):as-hash;
+ok records-summary(@vec):hash;
 
 ## 4
-isa-ok records-summary(@vec, :as-hash), Hash;
+isa-ok records-summary(@vec, :hash), Hash;
 
 ## 5
-is records-summary(@vec, :as-hash)<numerical>:exists, True;
+is records-summary(@vec, :hash)<numerical>:exists, True;
 
 ## 6
-is records-summary(@vec, :as-hash)<numerical><(Any-Nan-Nil-or-Whatever)>:exists, True;
+is records-summary(@vec, :hash)<numerical><(Any-Nan-Nil-or-Whatever)>:exists, True;
 
 ## 7
-is records-summary(@vec, :as-hash)<numerical><(Any-Nan-Nil-or-Whatever)> == 3, True;
+is records-summary(@vec, :hash)<numerical><(Any-Nan-Nil-or-Whatever)> == 3, True;
 
 ## 8
 my @svec = <bar car mask element charisma smack churn>.roll(15);
 @svec = @svec.append( [Whatever, Nil].roll(3));
 @svec .= pick(@svec.elems);
 ## 9
-isa-ok records-summary(@svec, :as-hash), Hash;
+isa-ok records-summary(@svec, :hash), Hash;
 
 ## 10
-is records-summary(@svec, :as-hash)<categorical>:exists, True;
+is records-summary(@svec, :hash)<categorical>:exists, True;
 
 ## 11
-is records-summary(@svec, :as-hash)<categorical><(Any-Nil-or-Whatever)>:exists, True;
+is records-summary(@svec, :hash)<categorical><(Any-Nil-or-Whatever)>:exists, True;
 
 ## 12
-is records-summary(@svec, :as-hash)<categorical><(Any-Nil-or-Whatever)> == 3, True;
+is records-summary(@svec, :hash)<categorical><(Any-Nil-or-Whatever)> == 3, True;
 
 done-testing;

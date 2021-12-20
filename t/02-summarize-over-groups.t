@@ -16,7 +16,7 @@ ok records-summary(group-by(get-titanic-dataset(), 'passengerClass')):!say;
 ok records-summary(group-by(get-titanic-dataset(), 'passengerClass')):!say;
 
 ## 3
-my $res3 = records-summary(group-by(get-titanic-dataset(), 'passengerSex')):!say:as-hash;
+my $res3 = records-summary(group-by(get-titanic-dataset(), 'passengerSex')):!say:hash;
 isa-ok $res3, Hash;
 
 ## 4

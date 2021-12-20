@@ -29,14 +29,14 @@ use Data::Reshapers::Predicates;
 unit module Data::Summarizers;
 
 #===========================================================
-sub records-summary($data, UInt :$max-tallies = 7, Bool :$as-hash = False, Bool :$say = True) is export {
+sub records-summary($data, UInt :$max-tallies = 7, Bool :$hash = False, Bool :$say = True) is export {
 
     ## If a hash of datasets delegate appropriately.
     if ($data ~~ Map) and ([and] $data.map({ has-homogeneous-shape($_) })) {
 
         return $data.map({
                 if $say { say("summary of { $_.key } =>") }
-                $_.key => records-summary($_.value, :$max-tallies, :$as-hash, :$say)
+                $_.key => records-summary($_.value, :$max-tallies, :$hash, :$say)
             }).Hash;
 
     }
@@ -49,7 +49,7 @@ sub records-summary($data, UInt :$max-tallies = 7, Bool :$as-hash = False, Bool 
         %summary = 'categorical' => %summary.pairs
     }
 
-    if $as-hash {
+    if $hash {
         return %summary.map({ $_.key => $_.value.Hash }).Hash;
     }
 

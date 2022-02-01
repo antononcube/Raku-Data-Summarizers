@@ -57,14 +57,14 @@ our proto CategoricalVectorSummary(|) is export {*}
 #-----------------------------------------------------------
 multi CategoricalVectorSummary(@vec where is-categorical-vector($_), UInt :$max-tallies = 7 --> List) {
 
-    my @r is Array = @vec.grep({ $_ ~~ Str }).classify({ $_ }).map({ $_.key => $_.value.elems });
+    my @r = @vec.grep({ $_ ~~ Str }).classify({ $_ }).map({ $_.key => $_.value.elems }).Array;
 
     @r = @r.sort({ - $_.value });
 
     my $whateverCounts = @vec.grep({ ($_ eqv Any) or $_.isa(Nil) or $_.isa(Whatever) }).elems;
 
     if @r.elems > $max-tallies {
-        @r = @r[^$max-tallies].Array.append(('(Other)' => @r.[$max-tallies .. *- 1].map({ $_.value }).sum))
+        @r = @r[^$max-tallies].Array.append(('(Other)' => @r.[$max-tallies .. *- 1].map({ $_.value }).sum));
     }
 
     if $whateverCounts > 0 {
@@ -72,6 +72,14 @@ multi CategoricalVectorSummary(@vec where is-categorical-vector($_), UInt :$max-
     }
 
     @r
+}
+
+#===========================================================
+our proto AtomicVectorSummary(|) is export {*}
+
+#-----------------------------------------------------------
+multi AtomicVectorSummary(@vec where is-atomic-vector($_), UInt :$max-tallies = 7 --> List) {
+    return CategoricalVectorSummary( @vec.map({ ($_ ~~ Numeric) ?? $_.Str !! $_ }).Array, :$max-tallies )
 }
 
 #===========================================================
@@ -88,6 +96,8 @@ multi RecordsSummary($dataRecords, UInt :$max-tallies = 7) {
     } elsif has-homogeneous-array-types($dataRecords) {
         my $k = 0;
         transpose($dataRecords).map({ ($k++).Str => RecordsSummary($_.value, :$max-tallies) })
+    } elsif is-atomic-vector($dataRecords) {
+        AtomicVectorSummary($dataRecords, :$max-tallies)
     } else {
         note 'Do not know how to summarize the argument.';
         ()

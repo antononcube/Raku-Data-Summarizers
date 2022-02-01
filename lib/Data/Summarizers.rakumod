@@ -50,7 +50,11 @@ sub records-summary($data, UInt :$max-tallies = 7, Bool :$hash = False, Bool :$s
     }
 
     if $hash {
-        return %summary.map({ $_.key => $_.value.Hash }).Hash;
+        if is-hash-of-seqs(%summary) {
+            return %summary.map({ $_.key => $_.value.Hash }).Hash;
+        } else {
+            return %summary;
+        }
     }
 
     my $maxSize = %summary.map({ $_.value.elems }).max;

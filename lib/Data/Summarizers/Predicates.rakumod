@@ -9,5 +9,9 @@ sub is-categorical-vector($vec --> Bool) is export {
 }
 
 sub is-atomic-vector($vec --> Bool) is export {
-    is-numeric-vector($vec) || is-categorical-vector($vec)
+    ($vec ~~ Positional) and [and] $vec.map({ $_ ~~ Str or $_ ~~ Numeric or $_ ~~ Num or ($_ eqv Any) or $_.isa(Nil) or $_.isa(Whatever) })
+}
+
+sub is-hash-of-seqs($vec --> Bool) is export {
+    ($vec ~~ Map) and [and] $vec.values.map({ $_ ~~ Seq })
 }

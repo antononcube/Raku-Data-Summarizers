@@ -32,7 +32,12 @@ multi NumericVectorSummary(@vec where is-numeric-vector($_) --> List) {
     if @nvec.elems == 0 {
         ()
     } else {
-        my @qs = quartiles(@nvec);
+        my @qs = do if @nvec.elems == 1 {
+            # This is a bug in Stats -- the function quartile should give this result.
+            (@nvec[0] xx 3).Array
+        } else {
+            quartiles(@nvec);
+        }
 
         my @res =
                 (

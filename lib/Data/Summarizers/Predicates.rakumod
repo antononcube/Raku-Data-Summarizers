@@ -15,3 +15,11 @@ sub is-atomic-vector($vec --> Bool) is export {
 sub is-hash-of-seqs($vec --> Bool) is export {
     ($vec ~~ Map) and [and] $vec.values.map({ $_ ~~ Seq })
 }
+
+sub is-positional-of-poisitionals($vec --> Bool) is export {
+    ($vec ~~ Positional) and [and] $vec.values.map({ $_ ~~ Positional })
+}
+
+sub is-iterable-of-iterable($vec --> Bool) is export {
+    ($vec ~~ Iterable) and [and] $vec.values.map({ $_ ~~ Iterable })
+}

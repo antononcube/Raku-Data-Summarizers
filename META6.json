@@ -1,26 +1,25 @@
 {
-  "perl": "6.d",
   "name": "Data::Summarizers",
-  "api": "1",
-  "auth": "github:antononcube",
-  "version": "0.1.0",
   "description": "Data summarizing functions for different data structures (arrays, lists of hashes, Text::CSV tables.)",
+  "version": "0.2.0",
+  "perl": "6.d",
   "authors": [
     "Anton Antonov"
   ],
-  "license": "Artistic-2.0",
-  "provides": {
-    "Data::Summarizers": "lib/Data/Summarizers.rakumod",
-    "Data::Summarizers::RecordsSummary": "lib/Data/Summarizers/RecordsSummary.rakumod",
-    "Data::Summarizers::Predicates": "lib/Data/Summarizers/Predicates.rakumod"
-  },
+  "auth": "github:antononcube",
   "depends": [
     "Stats",
     "Data::Reshapers"
   ],
   "build-depends": [],
   "test-depends": [],
+  "provides": {
+    "Data::Summarizers": "lib/Data/Summarizers.rakumod",
+    "Data::Summarizers::Predicates": "lib/Data/Summarizers/Predicates.rakumod",
+    "Data::Summarizers::RecordsSummary": "lib/Data/Summarizers/RecordsSummary.rakumod"
+  },
   "resources": [],
+  "license": "Artistic-2.0",
   "tags": [
     "summarize",
     "summary",
@@ -28,5 +27,6 @@
     "data",
     "dataset"
   ],
+  "api": "1",
   "source-url": "https://github.com/antononcube/Raku-Data-Summarizers.git"
 }

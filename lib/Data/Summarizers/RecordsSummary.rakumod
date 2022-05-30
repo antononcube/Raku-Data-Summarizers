@@ -103,6 +103,9 @@ multi RecordsSummary($dataRecords, UInt :$max-tallies = 7) {
         transpose($dataRecords).map({ ($k++).Str => RecordsSummary($_.value, :$max-tallies) })
     } elsif is-atomic-vector($dataRecords) {
         AtomicVectorSummary($dataRecords, :$max-tallies)
+    } elsif is-iterable-of-iterable($dataRecords) {
+        my $recs = $dataRecords>>.Array.map({ (0...^$_.elems) Z=> $_ })>>.Hash;
+        RecordsSummary($recs);
     } else {
         note 'Do not know how to summarize the argument.';
         ()

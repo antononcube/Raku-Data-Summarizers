@@ -29,6 +29,25 @@ use Data::Reshapers::Predicates;
 unit module Data::Summarizers;
 
 #===========================================================
+#| Tallies the elements in C<@data>, listing all distinct elements together with their multiplicities.
+proto tally(@data, |) is export {*}
+
+multi sub tally(@data) {
+    my %counts;
+    %counts{$_}++ for @data;
+    return %counts;
+}
+
+#
+# Use C<&test> to determine whether pairs of elements should be considered equivalent,
+# and gives a list of the first representatives of each equivalence class, together with their multiplicities.
+#multi sub tally(@data, &test) {
+#    my %counts;
+#    @data.categorize(&test, into=>%counts);
+#    return %counts;
+#}
+
+#===========================================================
 sub records-summary($data, UInt :$max-tallies = 7, Bool :$hash = False, Bool :$say = True) is export {
 
     ## If a hash of datasets delegate appropriately.

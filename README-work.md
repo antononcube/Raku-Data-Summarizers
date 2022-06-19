@@ -1,6 +1,6 @@
 # Raku Data::Summarizers
 
-[![Build Status](https://app.travis-ci.com/antononcube/Raku-Data-Summarizers.svg?branch=main)](https://app.travis-ci.com/github/antononcube/Raku-Data-Summarizers)
+[![SparkyCI](http://sparrowhub.io:2222/project/gh-antononcube-Raku-Data-Summarizers/badge)](http://sparrowhub.io:2222)
 [![License: Artistic-2.0](https://img.shields.io/badge/License-Artistic%202.0-0298c3.svg)](https://opensource.org/licenses/Artistic-2.0)
 
 This Raku package has data summarizing functions for different data structures that are 

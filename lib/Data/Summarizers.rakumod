@@ -60,6 +60,13 @@ sub records-summary($data, UInt :$max-tallies = 7, Bool :$hash = False, Bool :$s
 
     }
 
+    if is-reshapable(Positional, Array, $data) &&
+            has-homogeneous-shape($data) &&
+            ([and] $data.map({ [and] $_.map({ $_ ~~ Pair }) })) {
+        return records-summary( $data>>.Hash, :$max-tallies, :$hash, :$say);
+    }
+
+
     my %summary = Data::Summarizers::RecordsSummary::RecordsSummary($data, :$max-tallies);
 
     if is-numeric-vector($data) {

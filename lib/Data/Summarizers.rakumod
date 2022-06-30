@@ -31,12 +31,14 @@ unit module Data::Summarizers;
 
 #===========================================================
 #| Tallies the elements in C<@data>, listing all distinct elements together with their multiplicities.
-proto tally(@data, |) is export {*}
+proto tally($data, |) is export {*}
 
-multi sub tally(@data) {
-    my %counts;
-    %counts{$_}++ for @data;
-    return %counts;
+multi sub tally(@data, :&as = WhateverCode) {
+    if &as.isa(WhateverCode) {
+        return @data.BagHash.Hash
+    } else {
+        return @data.map({ &as($_) }).List.BagHash.Hash
+    }
 }
 
 #

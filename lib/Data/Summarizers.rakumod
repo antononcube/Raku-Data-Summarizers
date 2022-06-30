@@ -25,6 +25,7 @@ use Data::Summarizers::RecordsSummary;
 use Data::Summarizers::Predicates;
 use Data::Reshapers;
 use Data::Reshapers::Predicates;
+use Data::Reshapers::ToPrettyTable;
 
 unit module Data::Summarizers;
 
@@ -48,14 +49,18 @@ multi sub tally(@data) {
 #}
 
 #===========================================================
-sub records-summary($data, UInt :$max-tallies = 7, Bool :$hash = False, Bool :$say = True) is export {
+sub records-summary($data, UInt :$max-tallies = 7, :$missing-value is copy = Whatever, Bool :$hash = False, Bool :$say = True) is export {
+
+    if $missing-value.isa(Whatever) {
+        $missing-value = '(Any-Nan-Nil-or-Whatever)';
+    }
 
     ## If a hash of datasets delegate appropriately.
     if ($data ~~ Map) and ([and] $data.map({ has-homogeneous-shape($_) })) {
 
         return $data.map({
                 if $say { say("summary of { $_.key } =>") }
-                $_.key => records-summary($_.value, :$max-tallies, :$hash, :$say)
+                $_.key => records-summary($_.value, :$max-tallies, :$missing-value, :$hash, :$say, :$missing-value)
             }).Hash;
 
     }
@@ -63,11 +68,11 @@ sub records-summary($data, UInt :$max-tallies = 7, Bool :$hash = False, Bool :$s
     if is-reshapable(Positional, Array, $data) &&
             has-homogeneous-shape($data) &&
             ([and] $data.map({ [and] $_.map({ $_ ~~ Pair }) })) {
-        return records-summary( $data>>.Hash, :$max-tallies, :$hash, :$say);
+        return records-summary(CompleteColumnNames($data>>.Hash), :$max-tallies, :$missing-value, :$hash, :$say);
     }
 
 
-    my %summary = Data::Summarizers::RecordsSummary::RecordsSummary($data, :$max-tallies);
+    my %summary = Data::Summarizers::RecordsSummary::RecordsSummary($data, :$max-tallies, :$missing-value);
 
     if is-numeric-vector($data) {
         %summary = 'numerical' => %summary.pairs

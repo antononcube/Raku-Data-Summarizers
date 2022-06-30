@@ -44,13 +44,13 @@ isa-ok records-summary(@svec, :hash), Hash;
 is records-summary(@svec, :hash)<categorical>:exists, True;
 
 ## 10
-is records-summary(@svec, :hash)<categorical><(Any-Nil-or-Whatever)>:exists, True;
+is records-summary(@svec, :hash)<categorical><(Any-Nan-Nil-or-Whatever)>:exists, True;
 
 ## 11
-is records-summary(@svec, :hash)<categorical><(Any-Nil-or-Whatever)> == 3, True;
+is records-summary(@svec, :hash)<categorical><(Any-Nan-Nil-or-Whatever)> == 3, True;
 
 ## 12
 my $vec12 = ['a', 'b', 3, 3, Nil, Whatever];
-is records-summary($vec12, :hash)<(Any-Nil-or-Whatever)> == 2, True;
+is records-summary($vec12, :hash)<(Any-Nan-Nil-or-Whatever)> == 2, True;
 
 done-testing;

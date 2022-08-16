@@ -31,6 +31,8 @@ unit module Data::Summarizers;
 
 #===========================================================
 #| Tallies the elements in C<@data>, listing all distinct elements together with their multiplicities.
+#| C<@data> -- data to find tally for.
+#| C<:&as> -- function to be applied to the elements before comparing them.
 proto tally($data, |) is export {*}
 
 multi sub tally(@data, :&as = WhateverCode) {

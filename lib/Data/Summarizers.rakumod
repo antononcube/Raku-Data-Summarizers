@@ -53,7 +53,13 @@ multi sub tally(@data, :&as = WhateverCode) {
 #}
 
 #===========================================================
-sub records-summary($data, UInt :$max-tallies = 7, :$missing-value is copy = Whatever, Bool :$hash = False, Bool :$say = True) is export {
+#| Summarize data.
+#| C<$data> -- data to be summarized.
+#| C<:$max-tallies> -- max number of unique non-numeric elements to show.
+#| C<:$missing-value> -- how to mark missing values.
+#| C<:$hash> -- should a hash be returned or not?
+#| C<:$say> -- should the summary be printed out or not?
+our sub records-summary($data, UInt :$max-tallies = 7, :$missing-value is copy = Whatever, Bool :$hash = False, Bool :$say = True) is export {
 
     if $missing-value.isa(Whatever) {
         $missing-value = '(Any-Nan-Nil-or-Whatever)';

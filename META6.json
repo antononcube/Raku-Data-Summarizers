@@ -15,6 +15,7 @@
   "test-depends": [],
   "provides": {
     "Data::Summarizers": "lib/Data/Summarizers.rakumod",
+    "Data::Summarizers::ParetoPrincipleStatistic": "lib/Data/Summarizers/ParetoPrincipleStatistic.rakumod",
     "Data::Summarizers::Predicates": "lib/Data/Summarizers/Predicates.rakumod",
     "Data::Summarizers::RecordsSummary": "lib/Data/Summarizers/RecordsSummary.rakumod"
   },

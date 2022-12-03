@@ -117,3 +117,25 @@ our sub records-summary($data, UInt :$max-tallies = 7, :$missing-value is copy =
     }
     return $res;
 }
+
+#===========================================================
+#| Compute Pareto principle statistic.
+#| C<$data> - Can be a vector of numbers, a vector of strings, a hash with numeric values, a vector of string-numeric pairs, or a dataset.
+#| C<:$normalize> - Should the cumulative sums of the Pareto principle statistic be normalized or not?
+#| C<:$hash> - Should the results e in hash or not? Does not
+our proto pareto-principle-statistic($data, :$normalize, :$pairs) is export {*}
+
+multi pareto-principle-statistic($data, Bool :$normalize = True, :$pairs is copy = Whatever) {
+
+    if $pairs.isa(Whatever) {
+        $pairs = do given $data {
+            when $_ ~~ Positional && $_.all ~~ Pair { True }
+            when $_ ~~ Map { True }
+            default { False }
+        }
+    }
+
+    die 'The argument pairs is expected to be Boolean or Whatever' unless $pairs ~~ Bool;
+
+    return Data::Summarizers::ParetoPrincipleStatistic::ParetoPrincipleStatistic($data, :$normalize, $pairs);
+}

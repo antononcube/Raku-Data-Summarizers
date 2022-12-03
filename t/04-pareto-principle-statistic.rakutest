@@ -1,0 +1,105 @@
+use v6.d;
+
+use lib './lib';
+use lib '.';
+
+use Data::Summarizers;
+use Data::Reshapers;
+
+use Test;
+
+my $tbl = [
+    {:died(8.223988059658394e0), :name("Kori"), :survived(18.712381082489017e0)},
+    {:died(12.51224442845962e0), :name("Kiara"), :survived(42.08480518133555e0)},
+    {:died(9.901156880254776e0), :name("Kori"), :survived(38.65479365228604e0)},
+    {:died(12.399969103323897e0), :name("Kiara"), :survived(51.94798272840239e0)},
+    {:died(13.33333537828139e0), :name("Kori"), :survived(10.042169686620745e0)},
+    {:died(14.286597506811841e0), :name("Kiara"), :survived(-11.98253615655954e0)},
+    {:died(10.063059357507493e0), :name("Kiara"), :survived(45.41137311136801e0)},
+    {:died(12.028673882140492e0), :name("Kiara"), :survived(-6.92764106413528e0)},
+    {:died(7.882821435785258e0), :name("Kiara"), :survived(43.68746905999467e0)},
+    {:died(7.545880726327867e0), :name("Kiara"), :survived(-6.9085248817117275e0)},
+    {:died(11.907254200436247e0), :name("Kori"), :survived(61.639602611825424e0)},
+    {:died(10.956549838790153e0), :name("Kiara"), :survived(33.28939457504098e0)},
+    {:died(8.158734649874479e0), :name("Kiara"), :survived(39.723792806201196e0)},
+    {:died(16.720100285697264e0), :name("Kiara"), :survived(24.497456883019282e0)},
+    {:died(12.254510936253968e0), :name("Kiara"), :survived(3.131208735215459e0)},
+    {:died(16.39949284685041e0), :name("Kori"), :survived(16.14907227706832e0)},
+    {:died(18.407363339213116e0), :name("Kiara"), :survived(31.563261350612958e0)},
+    {:died(12.45199343944951e0), :name("Gemma"), :survived(2.8548861291588743e0)},
+    {:died(11.446547658159691e0), :name("Kori"), :survived(67.12183975241908e0)},
+    {:died(6.535011337672409e0), :name("Kiara"), :survived(49.65815666596019e0)}];
+
+
+plan 12;
+
+## 1
+my @vec1 = |(^10e5).roll(200).Array;
+isa-ok pareto-principle-statistic(@vec1, :normalize, :!pairs),
+        Positional,
+        'call over a numeric vector';
+
+## 2
+isa-ok pareto-principle-statistic(@vec1, :normalize, :pairs),
+        Positional,
+        'call over a numeric vector with :pairs';
+
+## 3
+my $res3 = pareto-principle-statistic(@vec1, :normalize, :pairs);
+is $res3 ~~ Positional && $res3.all ~~ Pair && $res3.map(*.value).all ~~ Numeric,
+        True,
+        'call over a numeric vector with :pairs type';
+
+## 4
+my @vec4 = ('a' .. 'z').roll(330).Array;
+isa-ok pareto-principle-statistic(@vec4, :normalize, :!pairs),
+        Positional,
+        'call over a string vector';
+
+## 5
+isa-ok pareto-principle-statistic(@vec4, :normalize, :pairs),
+        Positional,
+        'call over a string vector with :pairs';
+
+## 6
+my $res6 = pareto-principle-statistic(@vec1, :normalize, :pairs);
+is $res6 ~~ Positional && $res6.all ~~ Pair && $res6.map(*.value).all ~~ Numeric,
+        True,
+        'call over a string vector with :pairs type';
+
+
+## 7
+my %hvec6 = ('a' .. 'z').roll(330) Z=> (^1999).roll(330);
+isa-ok pareto-principle-statistic(%hvec6, :normalize, :pairs),
+        List,
+        'call over a hash';
+
+## 8
+my $res8 = pareto-principle-statistic(%hvec6, :normalize, :pairs);
+is $res8 ~~ Positional && $res8.all ~~ Pair && $res8.map(*.value).all ~~ Numeric,
+        True,
+        'call over a hash type';
+
+## 9
+isa-ok pareto-principle-statistic($tbl, :!pairs),
+        Hash,
+        'call over a dataset';
+
+## 10
+my $res10 = pareto-principle-statistic($tbl, :pairs);
+is $res10 ~~ Hash && $res10.values.all ~~ Positional,
+        True,
+        'call over a dataset type';
+
+## 11
+isa-ok pareto-principle-statistic($tbl, :pairs),
+        Hash,
+        'call over a dataset with :pairs';
+
+## 12
+my $res12 = pareto-principle-statistic($tbl, :pairs);
+is $res12 ~~ Hash && $res12.values.all ~~ Positional && $res12.values[0].all ~~ Pair && $res12.values[0].map(*.value).all ~~ Numeric,
+        True,
+        'call over a dataset with :pairs type';
+
+done-testing;

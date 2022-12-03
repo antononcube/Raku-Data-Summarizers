@@ -1,3 +1,7 @@
+
+# Since this Raku module depends on "Data::Reshapers"
+# these functions are "obsolete" -- the type system of "Data::Reshapers" can be used instead.
+
 unit module Data::Summarizers::Predicates;
 
 sub is-numeric-vector($vec --> Bool) is export {

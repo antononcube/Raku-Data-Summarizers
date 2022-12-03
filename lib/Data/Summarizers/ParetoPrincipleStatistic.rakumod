@@ -10,8 +10,8 @@ our proto ParetoPrincipleStatistic(|) {*};
 
 multi ParetoPrincipleStatistic(@vec where is-numeric-vector(@vec),
                                Bool :$normalize = True,
-                               Bool :$hash = False) {
-    if $hash {
+                               Bool :$pairs = False) {
+    if $pairs {
         return ParetoPrincipleStatistic( (^@vec.elems Z=> @vec).Hash, :$normalize);
     }
 
@@ -30,20 +30,22 @@ multi ParetoPrincipleStatistic(@vec where is-numeric-vector(@vec),
 
 multi ParetoPrincipleStatistic(@vec where is-categorical-vector(@vec),
                                Bool :$normalize = True,
-                               Bool :$hash = False) {
-    if $hash {
+                               Bool :$pairs = False) {
+    if $pairs {
         my @catVals = @vec.grep({ $_ ~~ Str }).BagHash.pairs.List;
         say @catVals;
         say deduce-type(@catVals);
         return ParetoPrincipleStatistic(@catVals, :$normalize);
     } else {
         my @catVals = @vec.grep({ $_ ~~ Str }).BagHash.values;
-        return ParetoPrincipleStatistic(@catVals, :$normalize, :!hash);
+        return ParetoPrincipleStatistic(@catVals, :$normalize, :!pairs);
     }
 }
 
 multi ParetoPrincipleStatistic(%hvec where is-numeric-vector(%hvec.values.List),
-                               Bool :$normalize = True --> List) {
+                               Bool :$normalize = True,
+                               Bool :$pairs = True
+        --> List) {
     # Pareto statistic computations
     my @tally = %hvec.grep({ $_.value ~~ Numeric }).sort({ -$_.value });
 
@@ -54,7 +56,7 @@ multi ParetoPrincipleStatistic(%hvec where is-numeric-vector(%hvec.values.List),
         @cumSum = @cumSum X* 1 / $tsum;
     }
 
-    return (@tally>>.key Z=> @cumSum).List;
+    return $pairs ?? (@tally>>.key Z=> @cumSum).List !! @cumSum;
 }
 
 constant $strIntPairType = Data::Reshapers::TypeSystem::Pair.new(
@@ -68,15 +70,17 @@ constant $strNumericPairType = Data::Reshapers::TypeSystem::Pair.new(
         count => Any);
 
 multi ParetoPrincipleStatistic(@pvec where deduce-type(@pvec).type eq $strNumericPairType || deduce-type(@pvec).type eq $strIntPairType,
-                               Bool :$normalize = True --> List) {
+                               Bool :$normalize = True,
+                               Bool :$pairs = True
+        --> List) {
     my %hvec = @pvec.categorize({ $_.key }).deepmap({ $_.value })>>.sum;
-    return ParetoPrincipleStatistic(%hvec, :$normalize);
+    return ParetoPrincipleStatistic(%hvec, :$normalize, :$pairs);
 }
 
 multi ParetoPrincipleStatistic(@data where is-reshapable(Positional, Map, @data),
                                $column-names = Whatever,
                                Bool :$normalize = True,
-                               Bool :$hash = False
+                               Bool :$pairs = True
         --> Hash) {
 
     my @cdata = complete-column-names(@data);
@@ -89,5 +93,5 @@ multi ParetoPrincipleStatistic(@data where is-reshapable(Positional, Map, @data)
 
     ## This is one of getting the Pareto principle statistic done.
     ## But it is better to produce a comprehensive data set instead.
-    return %tdata.map({ $_.key => ParetoPrincipleStatistic($_.value, :$normalize, :$hash) }).Hash;
+    return %tdata.map({ $_.key => ParetoPrincipleStatistic($_.value, :$normalize, :$pairs) }).Hash;
 }

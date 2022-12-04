@@ -1,12 +1,12 @@
 {
   "name": "Data::Summarizers",
   "description": "Data summarizing functions for different data structures (arrays, lists of hashes, Text::CSV tables.)",
-  "version": "0.2.0",
+  "version": "0.2.3",
   "perl": "6.d",
   "authors": [
     "Anton Antonov"
   ],
-  "auth": "github:antononcube",
+  "auth": "zef:antononcube",
   "depends": [
     "Stats",
     "Data::Reshapers"
@@ -15,6 +15,7 @@
   "test-depends": [],
   "provides": {
     "Data::Summarizers": "lib/Data/Summarizers.rakumod",
+    "Data::Summarizers::ParetoPrincipleStatistic": "lib/Data/Summarizers/ParetoPrincipleStatistic.rakumod",
     "Data::Summarizers::Predicates": "lib/Data/Summarizers/Predicates.rakumod",
     "Data::Summarizers::RecordsSummary": "lib/Data/Summarizers/RecordsSummary.rakumod"
   },

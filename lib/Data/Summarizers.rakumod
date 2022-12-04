@@ -77,7 +77,7 @@ our sub records-summary($data,
 
         return $data.map({
                 if $say { say("summary of { $_.key } =>") }
-                $_.key => records-summary($_.value, :$max-tallies, :$missing-value, :$hash, :$say, :$missing-value)
+                $_.key => records-summary($_.value, :$max-tallies, :$missing-value, :$hash, :$say, :$field-names)
             }).Hash;
 
     }
@@ -85,7 +85,7 @@ our sub records-summary($data,
     if is-reshapable(Positional, Array, $data) &&
             has-homogeneous-shape($data) &&
             ([and] $data.map({ [and] $_.map({ $_ ~~ Pair }) })) {
-        return records-summary(CompleteColumnNames($data>>.Hash), :$max-tallies, :$missing-value, :$hash, :$say);
+        return records-summary(CompleteColumnNames($data>>.Hash), :$max-tallies, :$missing-value, :$hash, :$say, :$field-names);
     }
 
 

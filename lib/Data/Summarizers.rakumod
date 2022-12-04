@@ -95,6 +95,10 @@ our sub records-summary($data,
         %summary = 'numerical' => %summary.pairs
     } elsif is-categorical-vector($data) {
         %summary = 'categorical' => %summary.pairs
+    } elsif is-date-time-vector($data) {
+        %summary = 'date-time' => %summary.pairs
+    } elsif is-datish-vector($data) {
+        %summary = 'datish' => %summary.pairs
     }
 
     if $hash {

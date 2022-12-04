@@ -12,6 +12,18 @@ sub is-categorical-vector($vec --> Bool) is export {
     ($vec ~~ Positional) and [and] $vec.map({ $_ ~~ Str or ($_ eqv Any) or $_.isa(Nil) or $_.isa(Whatever) })
 }
 
+sub is-date-time-vector($vec --> Bool) is export {
+    ($vec ~~ Positional) and [and] $vec.map({ $_ ~~ DateTime or ($_ eqv Any) or $_.isa(Nil) or $_.isa(Whatever) })
+}
+
+sub is-date-vector($vec --> Bool) is export {
+    ($vec ~~ Positional) and [and] $vec.map({ $_ ~~ Date or ($_ eqv Any) or $_.isa(Nil) or $_.isa(Whatever) })
+}
+
+sub is-datish-vector($vec --> Bool) is export {
+    ($vec ~~ Positional) and [and] $vec.map({ $_ ~~ Dateish or ($_ eqv Any) or $_.isa(Nil) or $_.isa(Whatever) })
+}
+
 sub is-atomic-vector($vec --> Bool) is export {
     ($vec ~~ Positional) and [and] $vec.map({ $_ ~~ Str or $_ ~~ Numeric or $_ ~~ Num or ($_ eqv Any) or $_.isa(Nil) or $_.isa(Whatever) })
 }

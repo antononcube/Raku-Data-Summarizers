@@ -56,6 +56,18 @@ multi NumericVectorSummary(@vec where is-numeric-vector($_), Str :$missing-value
     }
 }
 
+#-----------------------------------------------------------
+multi NumericVectorSummary(@vec where is-date-time-vector(@vec), Str :$missing-value = '(Any-Nan-Nil-or-Whatever)' --> List) {
+    my @nvec = @vec>>.Numeric>>.Int.List;
+    @nvec = NumericVectorSummary(@nvec, :$missing-value);
+    return @nvec.map({ $_.key => DateTime.new($_.value) }).List;
+}
+
+#-----------------------------------------------------------
+multi NumericVectorSummary(@vec where is-datish-vector(@vec), Str :$missing-value = '(Any-Nan-Nil-or-Whatever)' --> List) {
+    return NumericVectorSummary(@vec>>.DateTime.List, :$missing-value);
+}
+
 #===========================================================
 our proto CategoricalVectorSummary(|) is export {*}
 
@@ -96,7 +108,7 @@ our proto RecordsSummary(|) is export {*}
 
 #-----------------------------------------------------------
 multi RecordsSummary($dataRecords, UInt :$max-tallies = 7, :$missing-value = '(Any-Nan-Nil-or-Whatever)') {
-    if is-numeric-vector($dataRecords) {
+    if is-numeric-vector($dataRecords) || is-datish-vector($dataRecords) {
         NumericVectorSummary($dataRecords, :$missing-value)
     } elsif is-categorical-vector($dataRecords) {
         CategoricalVectorSummary($dataRecords, :$max-tallies, :$missing-value)

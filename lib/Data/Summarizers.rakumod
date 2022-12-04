@@ -55,12 +55,18 @@ multi sub tally(@data, :&as = WhateverCode) {
 
 #===========================================================
 #| Summarize data.
-#| C<$data> -- data to be summarized.
-#| C<:$max-tallies> -- max number of unique non-numeric elements to show.
-#| C<:$missing-value> -- how to mark missing values.
-#| C<:$hash> -- should a hash be returned or not?
-#| C<:$say> -- should the summary be printed out or not?
-our sub records-summary($data, UInt :$max-tallies = 7, :$missing-value is copy = Whatever, Bool :$hash = False, Bool :$say = True) is export {
+#| C<$data> -- Data to be summarized.
+#| C<:$max-tallies> -- Max number of unique non-numeric elements to show.
+#| C<:$missing-value> -- How to mark missing values.
+#| C<:$hash> -- Should a hash be returned or not?
+#| C<:$say> -- Should the summary be printed out or not?
+#| C<:$field-names> -- Column (field) names to show.
+our sub records-summary($data,
+                        UInt :$max-tallies = 7,
+                        :$missing-value is copy = Whatever,
+                        Bool :$hash = False,
+                        Bool :$say = True,
+                        :$field-names = Whatever) is export {
 
     if $missing-value.isa(Whatever) {
         $missing-value = '(Any-Nan-Nil-or-Whatever)';
@@ -114,7 +120,7 @@ our sub records-summary($data, UInt :$max-tallies = 7, :$missing-value is copy =
     my $res = transpose(%summary2).values;
 
     if $say {
-        say to-pretty-table($res, align => 'l');
+        say to-pretty-table($res, align => 'l', :$field-names);
     }
     return $res;
 }

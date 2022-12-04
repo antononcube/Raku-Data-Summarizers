@@ -20,13 +20,15 @@ The supported data structures (so far) are:
 
 Here we load the Raku modules 
 [`Data::Generators`](https://modules.raku.org/dist/Data::Generators:cpan:ANTONOV),
-[`Data::Reshapers`](https://modules.raku.org/dist/Data::Reshapers:cpan:ANTONOV)
+[`Data::Reshapers`](https://modules.raku.org/dist/Data::Reshapers:cpan:ANTONOV),
+[`Text::Plot`](https://modules.raku.org/dist/Text::Plot:cpan:ANTONOV),
 and this module,
 [`Data::Summarizers`](https://github.com/antononcube/Raku-Data-Summarizers):
 
 ```perl6
 use Data::Generators;
 use Data::Reshapers;
+use Text::Plot;
 use Data::Summarizers;
 ```
 
@@ -72,7 +74,7 @@ records-summary($tbl)
 
 Here is a hash of tabular datasets:
 
-```raku
+```perl6
 my %group = group-by($tbl, 'Pet');
 
 %group.pairs.map({ say("{$_.key} =>"); say to-pretty-table($_.value) });
@@ -80,8 +82,24 @@ my %group = group-by($tbl, 'Pet');
 
 Here is the summary of that collection of datasets:
 
-```raku
+```perl6
 records-summary(%group)
+```
+
+### Pareto principle statistic
+
+Here is vector of 200 random (normally distributed) numbers:
+
+```perl6
+my @vec = random-variate(NormalDistribution.new(30, 20), 200);
+```
+
+Here we compute the 
+[Pareto principle statistic](https://en.wikipedia.org/wiki/Pareto_principle) 
+and plot it:
+
+```perl6
+text-list-plot(pareto-principle-statistic(@vec))
 ```
 
 ### Skim

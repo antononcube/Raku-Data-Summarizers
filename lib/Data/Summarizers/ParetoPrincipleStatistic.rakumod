@@ -33,8 +33,6 @@ multi ParetoPrincipleStatistic(@vec where is-categorical-vector(@vec),
                                Bool :$pairs = False) {
     if $pairs {
         my @catVals = @vec.grep({ $_ ~~ Str }).BagHash.pairs.List;
-        say @catVals;
-        say deduce-type(@catVals);
         return ParetoPrincipleStatistic(@catVals, :$normalize);
     } else {
         my @catVals = @vec.grep({ $_ ~~ Str }).BagHash.values;

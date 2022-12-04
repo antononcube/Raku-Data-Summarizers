@@ -21,8 +21,9 @@ different data structures (full arrays, Red tables, Text::CSV tables.)
 
 =end pod
 
-use Data::Summarizers::RecordsSummary;
+use Data::Summarizers::ParetoPrincipleStatistic;
 use Data::Summarizers::Predicates;
+use Data::Summarizers::RecordsSummary;
 use Data::Reshapers;
 use Data::Reshapers::Predicates;
 use Data::Reshapers::ToPrettyTable;
@@ -137,5 +138,5 @@ multi pareto-principle-statistic($data, Bool :$normalize = True, :$pairs is copy
 
     die 'The argument pairs is expected to be Boolean or Whatever' unless $pairs ~~ Bool;
 
-    return Data::Summarizers::ParetoPrincipleStatistic::ParetoPrincipleStatistic($data, :$normalize, $pairs);
+    return Data::Summarizers::ParetoPrincipleStatistic::ParetoPrincipleStatistic($data, :$normalize, :$pairs);
 }

@@ -97,7 +97,7 @@ our sub records-summary($data,
         %summary = 'categorical' => %summary.pairs
     } elsif is-date-time-vector($data) {
         %summary = 'date-time' => %summary.pairs
-    } elsif is-datish-vector($data) {
+    } elsif is-dateish-vector($data) {
         %summary = 'datish' => %summary.pairs
     }
 

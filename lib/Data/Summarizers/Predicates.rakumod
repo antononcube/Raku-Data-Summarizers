@@ -20,7 +20,7 @@ sub is-date-vector($vec --> Bool) is export {
     ($vec ~~ Positional) and [and] $vec.map({ $_ ~~ Date or ($_ eqv Any) or $_.isa(Nil) or $_.isa(Whatever) })
 }
 
-sub is-datish-vector($vec --> Bool) is export {
+sub is-dateish-vector($vec --> Bool) is export {
     ($vec ~~ Positional) and [and] $vec.map({ $_ ~~ Dateish or ($_ eqv Any) or $_.isa(Nil) or $_.isa(Whatever) })
 }
 

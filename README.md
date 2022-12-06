@@ -46,7 +46,7 @@ my @vec = [^1001].roll(12);
 @vec
 ```
 ```
-# [953 NaN 275 (Whatever) 182 174 774 314 312 229 215 699 621 68 (Any)]
+# [69 782 838 226 (Any) 407 497 608 129 (Whatever) 932 41 NaN 400 697]
 ```
 
 Here we summarize the vector generated above:
@@ -58,13 +58,13 @@ records-summary(@vec)
 # +-----------------------------------------+
 # | numerical                               |
 # +-----------------------------------------+
-# | 3rd-Qu                    => 660        |
-# | Mean                      => 401.333333 |
-# | Max                       => 953        |
-# | Min                       => 68         |
 # | (Any-Nan-Nil-or-Whatever) => 3          |
-# | 1st-Qu                    => 198.5      |
-# | Median                    => 293.5      |
+# | 1st-Qu                    => 177.5      |
+# | Max                       => 932        |
+# | Min                       => 41         |
+# | 3rd-Qu                    => 739.5      |
+# | Mean                      => 468.833333 |
+# | Median                    => 452        |
 # +-----------------------------------------+
 ```
 
@@ -80,26 +80,26 @@ my $tbl = random-tabular-dataset(16,
 to-pretty-table($tbl)
 ```
 ```
-# +---------+----------------------+-----------+
-# |   Pet   |         Code         |    Ref    |
-# +---------+----------------------+-----------+
-# |  Maggie |  NKNwmt0QmoqABwRw2   | 16.277717 |
-# |  Percy  |  NKNwmt0QmoqABwRw2   | 15.854088 |
-# |  Nocona |       qpuwPHV        | 11.782221 |
-# |  Nocona | MoxGOxgZjtSP6VrKbHda |  9.825102 |
-# | Lagoona |       aDNA2Ue6       | 18.729798 |
-# |  Nocona |  NKNwmt0QmoqABwRw2   |  0.731900 |
-# |  Maggie |  CO9FGDOCQmrQcQ4YkX  |  0.739763 |
-# |  Maggie |  CO9FGDOCQmrQcQ4YkX  | 12.956172 |
-# |  Percy  |  CO9FGDOCQmrQcQ4YkX  |  0.050176 |
-# |  Maggie | EWAMtJCiNcio2d8qOu7Z | 19.868591 |
-# |  Percy  |       aDNA2Ue6       |  8.811677 |
-# |  Percy  |  CO9FGDOCQmrQcQ4YkX  |  1.740695 |
-# |  Percy  |       qpuwPHV        |  1.342386 |
-# | Lagoona |  NKNwmt0QmoqABwRw2   |  4.774780 |
-# |  Maggie | EWAMtJCiNcio2d8qOu7Z |  9.837488 |
-# |  Percy  |       aDNA2Ue6       |  7.342107 |
-# +---------+----------------------+-----------+
+# +----------------------+-----------+---------+
+# |         Code         |    Ref    |   Pet   |
+# +----------------------+-----------+---------+
+# |  CO9FGDOCQmrQcQ4YkX  | 12.956172 | Waddles |
+# |       aDNA2Ue6       |  8.811677 |  Reese  |
+# |       aDNA2Ue6       |  7.342107 |  Reese  |
+# |  NKNwmt0QmoqABwRw2   | 15.854088 |  Reese  |
+# | EWAMtJCiNcio2d8qOu7Z |  9.837488 | Waddles |
+# |       qpuwPHV        |  1.342386 |  Reese  |
+# |  CO9FGDOCQmrQcQ4YkX  |  0.739763 | Waddles |
+# |       aDNA2Ue6       | 18.729798 | Winston |
+# |  NKNwmt0QmoqABwRw2   |  0.731900 |  Henry  |
+# | EWAMtJCiNcio2d8qOu7Z | 19.868591 | Waddles |
+# |  NKNwmt0QmoqABwRw2   | 16.277717 | Waddles |
+# |  CO9FGDOCQmrQcQ4YkX  |  1.740695 |  Reese  |
+# |       qpuwPHV        | 11.782221 |  Henry  |
+# |  NKNwmt0QmoqABwRw2   |  4.774780 | Winston |
+# | MoxGOxgZjtSP6VrKbHda |  9.825102 |  Henry  |
+# |  CO9FGDOCQmrQcQ4YkX  |  0.050176 |  Reese  |
+# +----------------------+-----------+---------+
 ```
 
 **Remark:** The values of the column "Pet" is sampled from a set of four pet names, and the values of the column
@@ -111,16 +111,16 @@ Here we summarize the tabular dataset generated above:
 records-summary($tbl)
 ```
 ```
-# +------------------------------+--------------+---------------------------+
-# | Ref                          | Pet          | Code                      |
-# +------------------------------+--------------+---------------------------+
-# | Min    => 0.0501758995572299 | Percy   => 6 | CO9FGDOCQmrQcQ4YkX   => 4 |
-# | 1st-Qu => 1.5415405283062866 | Maggie  => 5 | NKNwmt0QmoqABwRw2    => 4 |
-# | Mean   => 8.791541293209137  | Nocona  => 3 | aDNA2Ue6             => 3 |
-# | Median => 9.318389368432966  | Lagoona => 2 | qpuwPHV              => 2 |
-# | 3rd-Qu => 14.405129897482926 |              | EWAMtJCiNcio2d8qOu7Z => 2 |
-# | Max    => 19.868590809216744 |              | MoxGOxgZjtSP6VrKbHda => 1 |
-# +------------------------------+--------------+---------------------------+
+# +---------------------------+------------------------------+--------------+
+# | Code                      | Ref                          | Pet          |
+# +---------------------------+------------------------------+--------------+
+# | CO9FGDOCQmrQcQ4YkX   => 4 | Min    => 0.0501758995572299 | Reese   => 6 |
+# | NKNwmt0QmoqABwRw2    => 4 | 1st-Qu => 1.5415405283062866 | Waddles => 5 |
+# | aDNA2Ue6             => 3 | Mean   => 8.791541293209136  | Henry   => 3 |
+# | EWAMtJCiNcio2d8qOu7Z => 2 | Median => 9.318389368432966  | Winston => 2 |
+# | qpuwPHV              => 2 | 3rd-Qu => 14.405129897482926 |              |
+# | MoxGOxgZjtSP6VrKbHda => 1 | Max    => 19.868590809216744 |              |
+# +---------------------------+------------------------------+--------------+
 ```
 
 ### Summarize collections of tabular datasets 
@@ -133,42 +133,42 @@ my %group = group-by($tbl, 'Pet');
 %group.pairs.map({ say("{$_.key} =>"); say to-pretty-table($_.value) });
 ```
 ```
-# Nocona =>
-# +--------+-----------+----------------------+
-# |  Pet   |    Ref    |         Code         |
-# +--------+-----------+----------------------+
-# | Nocona | 11.782221 |       qpuwPHV        |
-# | Nocona |  9.825102 | MoxGOxgZjtSP6VrKbHda |
-# | Nocona |  0.731900 |  NKNwmt0QmoqABwRw2   |
-# +--------+-----------+----------------------+
-# Maggie =>
-# +-----------+----------------------+--------+
-# |    Ref    |         Code         |  Pet   |
-# +-----------+----------------------+--------+
-# | 16.277717 |  NKNwmt0QmoqABwRw2   | Maggie |
-# |  0.739763 |  CO9FGDOCQmrQcQ4YkX  | Maggie |
-# | 12.956172 |  CO9FGDOCQmrQcQ4YkX  | Maggie |
-# | 19.868591 | EWAMtJCiNcio2d8qOu7Z | Maggie |
-# |  9.837488 | EWAMtJCiNcio2d8qOu7Z | Maggie |
-# +-----------+----------------------+--------+
-# Percy =>
-# +-----------+-------+--------------------+
-# |    Ref    |  Pet  |        Code        |
-# +-----------+-------+--------------------+
-# | 15.854088 | Percy | NKNwmt0QmoqABwRw2  |
-# |  0.050176 | Percy | CO9FGDOCQmrQcQ4YkX |
-# |  8.811677 | Percy |      aDNA2Ue6      |
-# |  1.740695 | Percy | CO9FGDOCQmrQcQ4YkX |
-# |  1.342386 | Percy |      qpuwPHV       |
-# |  7.342107 | Percy |      aDNA2Ue6      |
-# +-----------+-------+--------------------+
-# Lagoona =>
-# +---------+-----------+-------------------+
-# |   Pet   |    Ref    |        Code       |
-# +---------+-----------+-------------------+
-# | Lagoona | 18.729798 |      aDNA2Ue6     |
-# | Lagoona |  4.774780 | NKNwmt0QmoqABwRw2 |
-# +---------+-----------+-------------------+
+# Henry =>
+# +-------+-----------+----------------------+
+# |  Pet  |    Ref    |         Code         |
+# +-------+-----------+----------------------+
+# | Henry |  0.731900 |  NKNwmt0QmoqABwRw2   |
+# | Henry | 11.782221 |       qpuwPHV        |
+# | Henry |  9.825102 | MoxGOxgZjtSP6VrKbHda |
+# +-------+-----------+----------------------+
+# Waddles =>
+# +---------+-----------+----------------------+
+# |   Pet   |    Ref    |         Code         |
+# +---------+-----------+----------------------+
+# | Waddles | 12.956172 |  CO9FGDOCQmrQcQ4YkX  |
+# | Waddles |  9.837488 | EWAMtJCiNcio2d8qOu7Z |
+# | Waddles |  0.739763 |  CO9FGDOCQmrQcQ4YkX  |
+# | Waddles | 19.868591 | EWAMtJCiNcio2d8qOu7Z |
+# | Waddles | 16.277717 |  NKNwmt0QmoqABwRw2   |
+# +---------+-----------+----------------------+
+# Reese =>
+# +--------------------+-------+-----------+
+# |        Code        |  Pet  |    Ref    |
+# +--------------------+-------+-----------+
+# |      aDNA2Ue6      | Reese |  8.811677 |
+# |      aDNA2Ue6      | Reese |  7.342107 |
+# | NKNwmt0QmoqABwRw2  | Reese | 15.854088 |
+# |      qpuwPHV       | Reese |  1.342386 |
+# | CO9FGDOCQmrQcQ4YkX | Reese |  1.740695 |
+# | CO9FGDOCQmrQcQ4YkX | Reese |  0.050176 |
+# +--------------------+-------+-----------+
+# Winston =>
+# +-------------------+---------+-----------+
+# |        Code       |   Pet   |    Ref    |
+# +-------------------+---------+-----------+
+# |      aDNA2Ue6     | Winston | 18.729798 |
+# | NKNwmt0QmoqABwRw2 | Winston |  4.774780 |
+# +-------------------+---------+-----------+
 ```
 
 Here is the summary of that collection of datasets:
@@ -177,45 +177,45 @@ Here is the summary of that collection of datasets:
 records-summary(%group)
 ```
 ```
-# summary of Nocona =>
-# +-------------+---------------------------+------------------------------+
-# | Pet         | Code                      | Ref                          |
-# +-------------+---------------------------+------------------------------+
-# | Nocona => 3 | MoxGOxgZjtSP6VrKbHda => 1 | Min    => 0.7318998724597869 |
-# |             | NKNwmt0QmoqABwRw2    => 1 | 1st-Qu => 0.7318998724597869 |
-# |             | qpuwPHV              => 1 | Mean   => 7.446407632026351  |
-# |             |                           | Median => 9.825101946547935  |
-# |             |                           | 3rd-Qu => 11.782221077071329 |
-# |             |                           | Max    => 11.782221077071329 |
-# +-------------+---------------------------+------------------------------+
-# summary of Maggie =>
-# +---------------------------+------------------------------+-------------+
-# | Code                      | Ref                          | Pet         |
-# +---------------------------+------------------------------+-------------+
-# | EWAMtJCiNcio2d8qOu7Z => 2 | Min    => 0.7397628145038704 | Maggie => 5 |
-# | CO9FGDOCQmrQcQ4YkX   => 2 | 1st-Qu => 5.28862527360509   |             |
-# | NKNwmt0QmoqABwRw2    => 1 | Mean   => 11.935946110102652 |             |
-# |                           | Median => 12.956171789492936 |             |
-# |                           | 3rd-Qu => 18.073154106905072 |             |
-# |                           | Max    => 19.868590809216744 |             |
-# +---------------------------+------------------------------+-------------+
-# summary of Percy =>
+# summary of Henry =>
+# +------------------------------+---------------------------+------------+
+# | Ref                          | Code                      | Pet        |
+# +------------------------------+---------------------------+------------+
+# | Min    => 0.7318998724597869 | qpuwPHV              => 1 | Henry => 3 |
+# | 1st-Qu => 0.7318998724597869 | NKNwmt0QmoqABwRw2    => 1 |            |
+# | Mean   => 7.44640763202635   | MoxGOxgZjtSP6VrKbHda => 1 |            |
+# | Median => 9.825101946547935  |                           |            |
+# | 3rd-Qu => 11.782221077071329 |                           |            |
+# | Max    => 11.782221077071329 |                           |            |
+# +------------------------------+---------------------------+------------+
+# summary of Waddles =>
+# +--------------+------------------------------+---------------------------+
+# | Pet          | Ref                          | Code                      |
+# +--------------+------------------------------+---------------------------+
+# | Waddles => 5 | Min    => 0.7397628145038704 | EWAMtJCiNcio2d8qOu7Z => 2 |
+# |              | 1st-Qu => 5.28862527360509   | CO9FGDOCQmrQcQ4YkX   => 2 |
+# |              | Mean   => 11.935946110102654 | NKNwmt0QmoqABwRw2    => 1 |
+# |              | Median => 12.956171789492936 |                           |
+# |              | 3rd-Qu => 18.073154106905072 |                           |
+# |              | Max    => 19.868590809216744 |                           |
+# +--------------+------------------------------+---------------------------+
+# summary of Reese =>
 # +------------------------------+-------------------------+------------+
 # | Ref                          | Code                    | Pet        |
 # +------------------------------+-------------------------+------------+
-# | Min    => 0.0501758995572299 | aDNA2Ue6           => 2 | Percy => 6 |
-# | 1st-Qu => 1.342385712968499  | CO9FGDOCQmrQcQ4YkX => 2 |            |
+# | Min    => 0.0501758995572299 | CO9FGDOCQmrQcQ4YkX => 2 | Reese => 6 |
+# | 1st-Qu => 1.342385712968499  | aDNA2Ue6           => 2 |            |
 # | Mean   => 5.856854802129969  | qpuwPHV            => 1 |            |
 # | Median => 4.541401202231582  | NKNwmt0QmoqABwRw2  => 1 |            |
 # | 3rd-Qu => 8.811676790317996  |                         |            |
 # | Max    => 15.854088005472917 |                         |            |
 # +------------------------------+-------------------------+------------+
-# summary of Lagoona =>
+# summary of Winston =>
 # +------------------------------+--------------+------------------------+
 # | Ref                          | Pet          | Code                   |
 # +------------------------------+--------------+------------------------+
-# | Min    => 4.774780397743927  | Lagoona => 2 | NKNwmt0QmoqABwRw2 => 1 |
-# | 1st-Qu => 4.774780397743927  |              | aDNA2Ue6          => 1 |
+# | Min    => 4.774780397743927  | Winston => 2 | aDNA2Ue6          => 1 |
+# | 1st-Qu => 4.774780397743927  |              | NKNwmt0QmoqABwRw2 => 1 |
 # | Mean   => 11.752289215987028 |              |                        |
 # | Median => 11.752289215987028 |              |                        |
 # | 3rd-Qu => 18.72979803423013  |              |                        |
@@ -225,7 +225,7 @@ records-summary(%group)
 
 ### Pareto principle statistic
 
-Here is vector of 200 random numbers:
+Here is vector of 200 random (normally distributed) numbers:
 
 ```perl6
 my @vec = random-variate(NormalDistribution.new(30, 20), 200);

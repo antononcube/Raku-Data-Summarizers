@@ -133,7 +133,7 @@ our sub records-summary($data,
 #| Compute Pareto principle statistic.
 #| C<$data> - Can be a vector of numbers, a vector of strings, a hash with numeric values, a vector of string-numeric pairs, or a dataset.
 #| C<:$normalize> - Should the cumulative sums of the Pareto principle statistic be normalized or not?
-#| C<:$hash> - Should the results e in hash or not? Does not
+#| C<:$hash> - Should the results e in hash or not?
 our proto pareto-principle-statistic($data, :$normalize, :$pairs) is export {*}
 
 multi pareto-principle-statistic($data, Bool :$normalize = True, :$pairs is copy = Whatever) {

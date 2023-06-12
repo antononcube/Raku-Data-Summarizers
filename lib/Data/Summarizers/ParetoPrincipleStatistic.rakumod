@@ -1,7 +1,7 @@
 use v6.d;
 
 use Data::Reshapers;
-use Data::Reshapers::TypeSystem;
+use Data::TypeSystem;
 use Data::Summarizers::Predicates;
 
 unit module Data::Summarizers::ParetoPrincipleStatistic;
@@ -57,14 +57,14 @@ multi ParetoPrincipleStatistic(%hvec where is-numeric-vector(%hvec.values.List),
     return $pairs ?? (@tally>>.key Z=> @cumSum).List !! @cumSum;
 }
 
-constant $strIntPairType = Data::Reshapers::TypeSystem::Pair.new(
-        keyType => Data::Reshapers::TypeSystem::Atom.new(type => Str, count => 1),
-        type => Data::Reshapers::TypeSystem::Atom.new(type => Int, count => 1),
+constant $strIntPairType = Data::TypeSystem::Pair.new(
+        keyType => Data::TypeSystem::Atom.new(type => Str, count => 1),
+        type => Data::TypeSystem::Atom.new(type => Int, count => 1),
         count => Any);
 
-constant $strNumericPairType = Data::Reshapers::TypeSystem::Pair.new(
-        keyType => Data::Reshapers::TypeSystem::Atom.new(type => Str, count => 1),
-        type => Data::Reshapers::TypeSystem::Atom.new(type => Numeric, count => 1),
+constant $strNumericPairType = Data::TypeSystem::Pair.new(
+        keyType => Data::TypeSystem::Atom.new(type => Str, count => 1),
+        type => Data::TypeSystem::Atom.new(type => Numeric, count => 1),
         count => Any);
 
 multi ParetoPrincipleStatistic(@pvec where deduce-type(@pvec).type eq $strNumericPairType || deduce-type(@pvec).type eq $strIntPairType,

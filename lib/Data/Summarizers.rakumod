@@ -21,12 +21,13 @@ different data structures (full arrays, Red tables, Text::CSV tables.)
 
 =end pod
 
+use Data::Reshapers::ToPrettyTable;
+use Data::Reshapers;
 use Data::Summarizers::ParetoPrincipleStatistic;
 use Data::Summarizers::Predicates;
 use Data::Summarizers::RecordsSummary;
-use Data::Reshapers;
-use Data::Reshapers::Predicates;
-use Data::Reshapers::ToPrettyTable;
+use Data::TypeSystem::Predicates;
+use Data::TypeSystem;
 
 unit module Data::Summarizers;
 

@@ -17,7 +17,7 @@ different data structures coercible to full-arrays.
 
 use Stats;
 use Data::Summarizers::Predicates;
-use Data::Reshapers::Predicates;
+use Data::TypeSystem::Predicates;
 use Data::Reshapers;
 
 unit module Data::Summarizers::RecordsSummary;

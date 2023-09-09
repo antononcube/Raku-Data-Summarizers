@@ -1,0 +1,42 @@
+use v6.d;
+
+use lib '.';
+use lib 'lib';
+
+use Data::Summarizers;
+
+use Test;
+
+
+## 1
+
+my $data1 =
+        (${ :Categories("Personas"), :Description("You know that AI could as soon forget you as my existence"),
+            :Keywords("Fun; Style; Writer"), :Name("19thCenturyBritishNovel"), :Topics("Writing Genres") },
+         ${ :Categories("Function Prompts"), :Description("Convert text into an abstract"),
+            :Keywords("Abstraction; Paragraph; Summary"), :Name("AbstractConvert"), :PositionalArguments("\$a\t"),
+            :Topics("Content Derived from Text") },
+         ${ :Categories("Function Prompts"),
+            :Description("Rephrase text from passive into active voice"),
+            :Keywords("Editing; Grammar; Passive Voice; Writing"),
+            :Name("ActiveVoiceRephrase"), :PositionalArguments("\$a\t"),
+            :Topics("General Text Manipulation") },
+         ${ :Categories("Personas"), :Description("Explore alternate versions of history"),
+            :Keywords("Alternate History; Hypothetical; Timeline"), :Name("AlternativeHistorian"),
+            :Topics("Purpose Based") },
+         ${ :Categories("Personas"), :Description("The language of beasts, sort of"),
+            :Keywords("Animals; Fun"), :Name("AnimalSpeak"),
+            :Topics("Character Types") },
+         ${ :Categories("Function Prompts"),
+            :Description("Replace personally identifiable information in text with placeholders"),
+            :Keywords("keyword 1"), :Name("Anonymize"),
+            :PositionalArguments("\$a\t"),
+            :Topics("General Text Manipulation") },
+         ${ :Categories("Modifier Prompts"), :Description("Write the response as an aphorism"),
+            :Keywords("adage; canard; cliche; expression; maxim; precept; proverb; saying"), :Name("AphorismStyled"),
+            :Topics("Text Styling") });
+
+ok records-summary($data1);
+
+
+done-testing;

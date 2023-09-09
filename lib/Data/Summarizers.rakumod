@@ -74,7 +74,7 @@ our sub records-summary($data,
     }
 
     ## If a hash of datasets delegate appropriately.
-    if ($data ~~ Map) and ([and] $data.map({ has-homogeneous-shape($_) })) {
+    if ($data ~~ Map) && ([and] $data.map({ has-homogeneous-shape($_) })) {
 
         return $data.map({
                 if $say { say("summary of { $_.key } =>") }
@@ -83,12 +83,15 @@ our sub records-summary($data,
 
     }
 
-    if is-reshapable(Positional, Array, $data) &&
+    if ! has-homogeneous-shape($data) && $data ~~ Iterable && $data.are ~~ Map {
+        return records-summary(CompleteColumnNames($data), :$max-tallies, :$missing-value, :$hash, :$say, :$field-names);
+    }
+
+    if is-reshapable(Iterable, Array, $data) &&
             has-homogeneous-shape($data) &&
             ([and] $data.map({ [and] $_.map({ $_ ~~ Pair }) })) {
         return records-summary(CompleteColumnNames($data>>.Hash), :$max-tallies, :$missing-value, :$hash, :$say, :$field-names);
     }
-
 
     my %summary = Data::Summarizers::RecordsSummary::RecordsSummary($data, :$max-tallies, :$missing-value);
 

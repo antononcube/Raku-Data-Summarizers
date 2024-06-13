@@ -116,7 +116,13 @@ multi RecordsSummary($dataRecords, UInt :$max-tallies = 7, :$missing-value = '(A
         transpose($dataRecords).map({ $_.key => RecordsSummary($_.value, :$max-tallies, :$missing-value) })
     } elsif has-homogeneous-array-types($dataRecords) {
         my $k = 0;
-        transpose($dataRecords).map({ ($k++).Str => RecordsSummary($_.value, :$max-tallies, :$missing-value) })
+        if $dataRecords.all ~~ Iterable:D {
+            transpose($dataRecords).map({ ($k++).Str => RecordsSummary($_, :$max-tallies, :$missing-value) })
+        } elsif $dataRecords.all ~~ Map:D {
+            transpose($dataRecords).map({ ($k++).Str => RecordsSummary($_.value, :$max-tallies, :$missing-value) })
+        } else {
+            note 'Do not know how to summarize the argument.';
+        }
     } elsif is-atomic-vector($dataRecords) {
         AtomicVectorSummary($dataRecords, :$max-tallies, :$missing-value)
     } elsif is-iterable-of-iterable($dataRecords) {

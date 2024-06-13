@@ -1,0 +1,22 @@
+use v6.d;
+
+use lib <. lib>;
+
+use Data::Summarizers;
+
+use Test;
+
+
+## 1
+my $data1 = 1..12;
+ok records-summary($data1);
+
+## 2
+my @data2 = [10.rand, 100.rand] xx 4;
+ok records-summary(@data2);
+
+## 3
+my $data3 = [10.rand, 100.rand] xx 4;
+ok records-summary($data3);
+
+done-testing;

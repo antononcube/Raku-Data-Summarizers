@@ -35,7 +35,11 @@ unit module Data::Summarizers;
 #| Tallies the elements in C<@data>, listing all distinct elements together with their multiplicities.
 #| C<@data> -- data to find tally for.
 #| C<:&as> -- function to be applied to the elements before comparing them.
-proto tally($data, |) is export {*}
+our proto sub tally($data, |) is export {*}
+
+multi sub tally($data where $data ~~ Seq, *%args) {
+    return tally($data.List, |%args);
+}
 
 multi sub tally(@data, :&as = WhateverCode) {
     if &as.isa(WhateverCode) {
@@ -149,6 +153,10 @@ multi sub records-summary($data,
 #| C<:$normalize> - Should the cumulative sums of the Pareto principle statistic be normalized or not?
 #| C<:$hash> - Should the results e in hash or not?
 our proto pareto-principle-statistic($data, :$normalize, :$pairs) is export {*}
+
+multi sub pareto-principle-statistic($data where $data ~~ Seq, *%args) {
+    return pareto-principle-statistic($data.List, |%args);
+}
 
 multi pareto-principle-statistic($data, Bool :$normalize = True, :$pairs is copy = Whatever) {
 

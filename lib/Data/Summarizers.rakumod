@@ -62,13 +62,23 @@ multi sub tally(@data, :&as = WhateverCode) {
 #| C<:$hash> -- Should a hash be returned or not?
 #| C<:$say> -- Should the summary be printed out or not?
 #| C<:$field-names> -- Column (field) names to show.
-our sub records-summary($data,
+our proto sub records-summary($data,
                         UInt :$max-tallies = 7,
                         :$missing-value is copy = Whatever,
                         Bool :$hash = False,
                         Bool :$say = True,
-                        :$field-names = Whatever) is export {
+                        :$field-names = Whatever) is export {*}
 
+multi sub records-summary($data where $data ~~ Seq, *%args) {
+    return records-summary($data.List, |%args);
+}
+
+multi sub records-summary($data,
+                          UInt :$max-tallies = 7,
+                          :$missing-value is copy = Whatever,
+                          Bool :$hash = False,
+                          Bool :$say = True,
+                          :$field-names = Whatever) {
     if $missing-value.isa(Whatever) {
         $missing-value = '(Any-Nan-Nil-or-Whatever)';
     }
